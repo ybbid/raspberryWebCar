@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <title>树莓派云台摄像头</title>
+    <link rel="stylesheet" href="static/jquery.mobile-1.4.5.css"/>
+    <script type="text/javascript" src="static/jquery.js"></script> 
+
+<script type="text/javascript">
+    function Cam_go(k){
+        $.post('/',{k:k},function(){});
+    }
+    $(function(){
+        window.document.onkeydown = abc;
+        function abc(env){
+            env = (env) ? env : window.event;
+            if(env.keyCode=='87'){
+                Cam_go('w');
+            }
+            if(env.keyCode=='83'){
+                Cam_go('s');
+            }
+            if(env.keyCode=='65'){
+                Cam_go('a');
+            }
+            if(env.keyCode=='68'){
+                Cam_go('d');
+            }
+        }
+        var i = null;
+        $('.before').mousedown(function(){
+            i = setInterval(function(){
+                Cam_go('w');
+            },100);
+        });
+        $('.left').mousedown(function(){
+            i = setInterval(function(){
+                Cam_go('a');
+            },100);
+        });
+        $('.right').mousedown(function(){
+            i = setInterval(function(){
+                Cam_go('d');
+            },100);
+        });
+        $('.cabk').mousedown(function(){
+            i = setInterval(function(){
+                Cam_go('s');
+            },100);
+        });
+
+        $('#ButtonDirGroup span').mouseup(function(){
+            clearInterval(i);
+        });
+    });
+</script>
+
+
+    <style>
+    /* 图像上下翻转 */
+    .rotate{
+    -ms-transform:rotate(180deg); /* IE 9 */
+    -moz-transform:rotate(180deg); /* Firefox */
+    -webkit-transform:rotate(180deg); /* Safari and Chrome */
+    -o-transform:rotate(180deg); /* Opera */
+    }
+    /* 按键 */
+    #ButtonDirGroup{margin-top:50px;width: 150px;height: 150px;}
+    #ButtonDirGroup span{width: 50px;height: 50px;float: left;z-index: 999;}
+    #ButtonDirGroup span.on2{background: #ff00ff;}
+    #ButtonFunGroup{margin-top:50px;width: 400px;height: 150px;background: #eee;}
+    #ButtonFunGroup span.on2{background: #ff00ff;}
+    #ButtonFunGroup span{width: 50px;height: 50px;float: left;z-index: 999;}
+    </style>
+  </head>
+
+  <body>
+    <center>
+      <img width="400px" class="rotate" 
+			src="http://192.168.2.2:8080/?action=stream" />
+		<div id="ButtonDirGroup">
+        <span></span>
+        <span class="on2 before"></span>
+        <span></span>
+        <span class="on2 left"></span>
+        <span></span>
+        <span class="on2 right"></span>
+        <span></span>
+        <span class="on2 cabk"></span>
+        <span></span>
+		</div>
+    </center>
+  </body>
+</html>
